@@ -1,0 +1,46 @@
+name: deploy-mdb-atlas-app-service
+run-name: ${{ github.actor }} deploys an app on the Atlas App Service
+on: [workflow_dispatch]
+env:
+  NODE_VERSION: '18'
+  APP_ID: ${{ vars.APP_ID }}
+  APP_NAME: ${{ vars.APP_NAME }}
+  PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
+  PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
+jobs:
+  build-astro-svelte:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: $NODE_VERSION
+      - run: npm i
+        working-directory: ./fe 
+      - run: npm run build
+        working-directory: ./fe
+      - run: mkdir -p ./data/files
+      - run: cp -R ./fe/dist/* ./data/files
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: ./data
+  deploy-to-aas:
+    runs-on: ubuntu-latest
+    needs: build-astro-svelte
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: $NODE_VERSION
+      - run: npm install -g mongodb-realm-cli
+      - run: mkdir -p build-artifact
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: build-artifact
+      - run: realm-cli login --api-key $PUBLIC_API_KEY --private-api-key $PRIVATE_API_KEY -y
+      - run: realm-cli pull --remote $APP_ID
+      - run: cp -R ./build-artifact/* ./$APP_NAME/hosting
+      - run: realm-cli push --remote $APP_ID -s -c -y
+        working-directory: ./$APP_NAME
