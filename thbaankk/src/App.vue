@@ -3,17 +3,20 @@ import SearchItem from './components/SearchItem.vue'
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <SearchItem />
   </div>
 </template>
 
-<style scoped>
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+<style lang="scss">
+body {
+  background-color: #f5f5f5;
+}
+h1 {
+  color: green;
+
+  &:hover {
+    color: greenyellow;
+  }
 }
 </style>

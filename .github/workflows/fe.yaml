@@ -5,7 +5,7 @@ env:
   NODE_VERSION: '18'
   APP_ID: ${{ vars.APP_ID }}
   APP_NAME: ${{ vars.APP_NAME }}
-  PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
+  PUBLIC_API_KEY: ${{ vars.PUBLIC_API_KEY }}
   PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
 jobs:
   build-astro-svelte:
