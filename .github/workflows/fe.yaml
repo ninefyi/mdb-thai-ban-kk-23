@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - run: ls -lah
       - run: npm i
         working-directory: thbannkk
       - run: npm run build
