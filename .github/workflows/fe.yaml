@@ -1,6 +1,8 @@
 name: deploy-mdb-atlas-app-service
 run-name: ${{ github.actor }} deploys an app on the Atlas App Service
 on: [workflow_dispatch]
+defaults:
+  shell: bash
 env:
   NODE_VERSION: 18
   APP_ID: ${{ vars.APP_ID }}
@@ -15,11 +17,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - run: pwd
       - run: ls -lah
       - run: npm i
-        working-directory: thbannkk
+        working-directory: ./thbannkk
       - run: npm run build
-        working-directory: thbaankk
+        working-directory: ./thbaankk
       - run: mkdir -p ./data/files
       - run: cp -R ./thbaankk/dist/* ./data/files
       - uses: actions/upload-artifact@v3
@@ -44,4 +47,4 @@ jobs:
       - run: realm-cli pull --remote ${{ env.APP_ID }}
       - run: cp -R ./build-artifact/* ./${{ env.APP_NAME}}/hosting
       - run: realm-cli push --remote $APP_ID -s -c -y
-        working-directory: ${{ env.APP_NAME }}
+        working-directory: ./${{ env.APP_NAME }}
