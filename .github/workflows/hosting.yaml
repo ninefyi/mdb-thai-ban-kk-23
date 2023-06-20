@@ -1,8 +1,6 @@
 name: deploy-mdb-atlas-app-service
 run-name: ${{ github.actor }} deploys an app on the Atlas App Service
 on: [workflow_dispatch]
-defaults:
-  shell: bash
 env:
   NODE_VERSION: 18
   APP_ID: ${{ vars.APP_ID }}
