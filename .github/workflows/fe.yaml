@@ -16,9 +16,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: npm i
-        working-directory: ./fe 
+        working-directory: ./thbannkk
       - run: npm run build
-        working-directory: ./fe
+        working-directory: ./thbaankk
       - run: mkdir -p ./data/files
       - run: cp -R ./fe/dist/* ./data/files
       - uses: actions/upload-artifact@v3
@@ -39,8 +39,8 @@ jobs:
         with:
           name: build-artifact
           path: build-artifact
-      - run: realm-cli login --api-key $PUBLIC_API_KEY --private-api-key $PRIVATE_API_KEY -y
-      - run: realm-cli pull --remote $APP_ID
-      - run: cp -R ./build-artifact/* ./$APP_NAME/hosting
+      - run: realm-cli login --api-key ${{ env.PUBLIC_API_KEY }} --private-api-key ${{ env.PRIVATE_API_KEY }} -y
+      - run: realm-cli pull --remote ${{ env.APP_ID }}
+      - run: cp -R ./build-artifact/* ./${{ env.APP_NAME}}/hosting
       - run: realm-cli push --remote $APP_ID -s -c -y
-        working-directory: ./$APP_NAME
+        working-directory: ./${{ env.APP_NAME }}
