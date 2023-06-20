@@ -1,17 +1,22 @@
 <template>
   <div>
-    <i>
-      <p>My search query is: {{ message }}</p>
-      <input v-model="message" placeholder="enter your query" />&nbsp;
+    <p>My search query is: {{ message }}</p>
+    <p><input v-model="message" placeholder="enter your query" />&nbsp;
       <button @click="fetchData">Query Please!</button>
-    </i>
-    <div class="details"></div>
+    </p>
+  </div>
+  <div class="container">
+    <div class="row">
+      <com-singer v-for="(card, idx) in cards" :key="idx" v-bind:card="card"></com-singer>
+    </div>
   </div>
 </template>
 <script>
+import ListItem from './ListItem.vue'
 export default {
   data() {
     return {
+      cards: [],
       message: '',
     }
   },
@@ -26,7 +31,7 @@ export default {
       })
         .then((response) => {
           response.json().then((data) => {
-            console.log(data);
+            this.cards = data.result;
           });
         })
         .catch((err) => {
@@ -34,5 +39,9 @@ export default {
         });
     },
   },
+  components: {
+    comSinger: ListItem,
+  }
 }
 </script>
+
