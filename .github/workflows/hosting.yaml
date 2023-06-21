@@ -22,9 +22,12 @@ jobs:
       - name: Build
         working-directory: ./thbaankk
         run: npm run build
-      - run: mkdir -p ./data/files
-      - run: cp -R ./thbaankk/dist/* ./data/files
-      - uses: actions/upload-artifact@v3
+      - name: Create data directory
+        run: mkdir -p ./data/files
+      - name: Copy dist directory
+        run: cp -R ./thbaankk/dist/* ./data/files
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifact
           path: ./data
@@ -36,14 +39,22 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm install -g mongodb-realm-cli
-      - run: mkdir -p build-artifact
-      - uses: actions/download-artifact@v3
+      - name: Install dependencies
+        run: npm install -g mongodb-realm-cli
+      - name: Create build artifact directory
+        run: mkdir -p build-artifact
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
         with:
           name: build-artifact
           path: build-artifact
-      - run: realm-cli login --api-key ${{ env.PUBLIC_API_KEY }} --private-api-key ${{ env.PRIVATE_API_KEY }} -y
-      - run: realm-cli pull --remote ${{ env.APP_ID }}
-      - run: cp -R ./build-artifact/* ./${{ env.APP_NAME}}/hosting
-      - run: realm-cli push --remote $APP_ID -s -c -y
+      - name: Login
+        run: realm-cli login --api-key ${{ env.PUBLIC_API_KEY }} --private-api-key ${{ env.PRIVATE_API_KEY }} -y
+      - name: Pull changes
+        run: realm-cli pull --remote ${{ env.APP_ID }}
+      - name: Copy build artifact
+        run: cp -R ./build-artifact/* ./${{ env.APP_NAME}}/hosting
+      - name: Push changes
         working-directory: ./${{ env.APP_NAME }}
+        run: realm-cli push --remote ${{ env.APP_ID }} -s -c -y
+        
