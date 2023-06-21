@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>My search query is: {{ message }}</p>
-    <p><input v-model="message" placeholder="enter your query" />&nbsp;
-      <button @click="fetchData">Query Please!</button>
+    <p>คำที่ค้นหา: {{ message }}</p>
+    <p><input v-model="message" placeholder="ใส่คำค้นหา ภาษาไทย" />&nbsp;
+      <button @click="fetchData">ค้นเลยจ้า!!!</button>
     </p>
   </div>
   <div class="container">
