@@ -11,14 +11,15 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - uses: actions/checkout@v3
-      - run: pwd
-      - run: ls -lah
-      - run: npm i
-        working-directory: "thbannkk"
+      - run: find thbaankk
+      - name: Install dependencies
+        working-directory: ./thbaankk
+        run: npm i
+        
       - run: npm run build
         working-directory: "thbaankk"
       - run: mkdir -p ./data/files
