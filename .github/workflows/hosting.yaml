@@ -18,9 +18,9 @@ jobs:
       - run: pwd
       - run: ls -lah
       - run: npm i
-        working-directory: ./thbannkk
+        working-directory: "thbannkk"
       - run: npm run build
-        working-directory: ./thbaankk
+        working-directory: "thbaankk"
       - run: mkdir -p ./data/files
       - run: cp -R ./thbaankk/dist/* ./data/files
       - uses: actions/upload-artifact@v3
