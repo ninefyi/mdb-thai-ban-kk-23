@@ -5,7 +5,7 @@
       <button @click="fetchData">ค้นเลยจ้า!!!</button>
     </p>
   </div>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <com-singer v-for="(card, idx) in cards" :key="idx" v-bind:card="card"></com-singer>
     </div>
