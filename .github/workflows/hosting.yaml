@@ -19,9 +19,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./thbaankk
         run: npm i
-        
-      - run: npm run build
-        working-directory: "thbaankk"
+      - name: Build
+        working-directory: ./thbaankk
+        run: npm run build
       - run: mkdir -p ./data/files
       - run: cp -R ./thbaankk/dist/* ./data/files
       - uses: actions/upload-artifact@v3
